@@ -1,5 +1,6 @@
 import { FC, forwardRef, useImperativeHandle, useRef } from 'react'
 import { useForm } from 'react-hook-form'
+import { Button } from 'react-daisyui'
 
 import { TextField } from '../TextField'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -34,7 +35,7 @@ const SignUpSchema = z
 export type SignUpFormValue = z.infer<typeof SignUpSchema>
 
 type SignUpFormProps = {
-  onSubmitReady: (data: SignUpFormValue) => void
+  onSubmitReady: (data: SignUpFormValue) => Promise<void>
 }
 
 export type SignUpApi = {
@@ -46,7 +47,7 @@ export const SignUpForm = forwardRef<SignUpApi, SignUpFormProps>((props, ref) =>
     register,
     handleSubmit,
     setError,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<SignUpFormValue>({ resolver: zodResolver(SignUpSchema) })
 
   const setErrorRef = useRef(setError)
@@ -102,7 +103,9 @@ export const SignUpForm = forwardRef<SignUpApi, SignUpFormProps>((props, ref) =>
         type="password"
       />
 
-      <button>Submit</button>
+      <Button disabled={isSubmitting} color="primary">
+        {isSubmitting ? '送信中...' : '登録'}
+      </Button>
     </form>
   )
 })
