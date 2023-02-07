@@ -1,8 +1,12 @@
-import { useState, useRef } from 'react'
+import { useRef } from 'react'
+import { useRouter } from 'next/router'
 import { SignUpForm, SignUpFormValue, SignUpApi } from '../src/components/SignUpForm/SignUpForm'
+import { Button } from 'react-daisyui'
+import Link from 'next/link'
 
 export default function SignUpPage() {
   const signupFormRef = useRef<SignUpApi>(null)
+  const router = useRouter()
 
   const handleSubmit = async (data: SignUpFormValue) => {
     const httpResponse = await fetch('/api/sign-up', {
@@ -21,9 +25,19 @@ export default function SignUpPage() {
       signupFormRef.current?.setErrors(jsonResponse.errors)
       return
     }
-
+    router.replace('/')
     await new Promise((resolve) => setTimeout(resolve, 500))
   }
 
-  return <SignUpForm onSubmitReady={handleSubmit} ref={signupFormRef} />
+  return (
+    <SignUpForm
+      onSubmitReady={handleSubmit}
+      ref={signupFormRef}
+      suffix={
+        <Link href="/login">
+          <Button color="secondary">ログイン</Button>
+        </Link>
+      }
+    />
+  )
 }

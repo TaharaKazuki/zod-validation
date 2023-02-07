@@ -37,18 +37,18 @@
 
     // !Important for Vlad
     // https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-wrap-multilines.md
-    "react/jsx-wrap-multilines": [
-      1,
-      {
-        "declaration": "parens-new-line",
-        "assignment": "parens-new-line",
-        "return": "parens-new-line",
-        "arrow": "parens-new-line",
-        "prop": "parens-new-line",
-        "condition": "parens-new-line",
-        "logical": "parens-new-line"
-      }
-    ],
+    // "react/jsx-wrap-multilines": [
+    //   1,
+    //   {
+    //     "declaration": "parens-new-line",
+    //     "assignment": "parens-new-line",
+    //     "return": "parens-new-line",
+    //     "arrow": "parens-new-line",
+    //     "prop": "parens-new-line",
+    //     "condition": "parens-new-line",
+    //     "logical": "parens-new-line"
+    //   }
+    // ],
 
     // https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-tag-spacing.md
     "react/jsx-tag-spacing": [1],
