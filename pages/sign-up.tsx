@@ -2,6 +2,8 @@ import { useCallback } from 'react'
 import { Input } from 'react-daisyui'
 import { useForm } from 'react-hook-form'
 
+import { TextField } from '../src/components/TextField'
+
 export default function SignUpPage() {
   const {
     register,
@@ -26,50 +28,28 @@ export default function SignUpPage() {
       }}
       onSubmit={handleSubmit(onValid)}
     >
-      <div className="form-control w-full max-w-xs">
-        <label htmlFor={'email'} className="label">
-          <span className="label-text">email</span>
-        </label>
-        <Input
-          color={'ghost'}
-          id={'email'}
-          type={'text'}
-          {...register('email', { required: 'Emailの入力は必須です' })}
-        />
-        {errors.email?.message ? (
-          <span className="label-text text-error">{errors.email.message as string}</span>
-        ) : null}
-      </div>
+      <TextField
+        id="email"
+        label="email"
+        inputProps={register('email', { required: 'Emailの入力は必須です' })}
+        error={errors.email?.message as string}
+      />
 
-      <div className="form-control w-full max-w-xs">
-        <label htmlFor={'password'} className="label">
-          <span className="label-text">password</span>
-        </label>
-        <Input
-          color={'ghost'}
-          id={'password'}
-          type={'text'}
-          {...register('password', { required: 'Passwordの入力は必須です' })}
-        />
-        {errors.password?.message ? (
-          <span className="label-text text-error">{errors.password.message as string}</span>
-        ) : null}
-      </div>
+      <TextField
+        id="password"
+        label="password"
+        inputProps={register('password', { required: 'Passwordの入力は必須です' })}
+        error={errors.password?.message as string}
+        type="password"
+      />
 
-      <div className="form-control w-full max-w-xs">
-        <label htmlFor={'confirm password'} className="label">
-          <span className="label-text">confirm password</span>
-        </label>
-        <Input
-          color={'ghost'}
-          id={'confirm password'}
-          type={'text'}
-          {...register('confirmPassword', { required: '確認用のPasswordの入力は必須です' })}
-        />
-        {errors.confirmPassword?.message ? (
-          <span className="label-text text-error">{errors.confirmPassword.message as string}</span>
-        ) : null}
-      </div>
+      <TextField
+        id="confirm password"
+        label="confirm password"
+        inputProps={register('confirmPassword', { required: '確認用のpasswordの入力は必須です' })}
+        error={errors.confirmPassword?.message as string}
+        type="password"
+      />
 
       <button>Submit</button>
     </form>
