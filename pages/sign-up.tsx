@@ -1,57 +1,29 @@
-import { useCallback } from 'react'
-import { Input } from 'react-daisyui'
-import { useForm } from 'react-hook-form'
-
-import { TextField } from '../src/components/TextField'
+import { useState, useRef } from 'react'
+import { SignUpForm, SignUpFormValue, SignUpApi } from '../src/components/SignUpForm/SignUpForm'
 
 export default function SignUpPage() {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm()
+  const signupFormRef = useRef<SignUpApi>(null)
 
-  const onValid = useCallback((data: unknown) => {
-    console.info('onValid', data)
-  }, [])
+  const handleSubmit = async (data: SignUpFormValue) => {
+    const httpResponse = await fetch('/api/sign-up', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: data.email,
+        password: data.password,
+      }),
+    })
+    const jsonResponse = await httpResponse.json()
+    console.info(jsonResponse)
+    if (!jsonResponse.success) {
+      signupFormRef.current?.setErrors(jsonResponse.errors)
+      return
+    }
 
-  return (
-    <form
-      style={{
-        display: 'flex',
-        flexFlow: 'column',
-        gap: 15,
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100vh',
-      }}
-      onSubmit={handleSubmit(onValid)}
-    >
-      <TextField
-        id="email"
-        label="email"
-        inputProps={register('email', { required: 'Emailの入力は必須です' })}
-        error={errors.email?.message as string}
-      />
+    await new Promise((resolve) => setTimeout(resolve, 500))
+  }
 
-      <TextField
-        id="password"
-        label="password"
-        inputProps={register('password', { required: 'Passwordの入力は必須です' })}
-        error={errors.password?.message as string}
-        type="password"
-      />
-
-      <TextField
-        id="confirm password"
-        label="confirm password"
-        inputProps={register('confirmPassword', { required: '確認用のpasswordの入力は必須です' })}
-        error={errors.confirmPassword?.message as string}
-        type="password"
-      />
-
-      <button>Submit</button>
-    </form>
-  )
+  return <SignUpForm onSubmitReady={handleSubmit} ref={signupFormRef} />
 }
